@@ -1,13 +1,21 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
-  </div>
+<ProductList/>
 </template>
 
+<script>
+import products from '@/data/products';
+import ProductList from '@/components/ProductList';
+
+export default {
+  name: 'App',
+  components: { ProductList },
+  data() {
+    return {
+      products,
+    };
+  },
+};
+</script>
 <style lang="stylus">
 #app
   font-family Avenir, Helvetica, Arial, sans-serif
