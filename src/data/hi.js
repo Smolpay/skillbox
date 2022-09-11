@@ -1,6 +1,7 @@
 import { question, message } from '@/data/hello';
 
-export const hi = {
+const hi = {
   message,
   question,
 };
+export default hi;
