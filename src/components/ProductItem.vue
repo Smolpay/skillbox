@@ -1,3 +1,4 @@
+ /* eslint-disable */
 <template>
 <li class="catalog__item">
             <a class="catalog__pic" href="#">
@@ -16,7 +17,7 @@
               <li class="colors__item">
                 <label class="colors__label">
                   <input class="colors__radio sr-only" type="radio"
-                         value="#73B6EA" v-model="color">
+                         value="colors" v-model="color">
                   <span class="colors__value" style="background-color: #73B6EA;">
                   </span>
                 </label>
@@ -40,14 +41,15 @@
 </template>
 
 <script>
+import colors from '@/data/colors';
 export default {
   name: 'ProductItem',
-  data() {
+    data() {
     return {
-      color: '#73B6EA',
+      color: colors,
     };
   },
-  props: ['product'],
+  props: ['product', 'colors'],
 };
 </script>
 

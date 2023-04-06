@@ -1,14 +1,14 @@
 export default [
   {
     id: 1,
-    title: 'батарейки',
+    title: 'Батарейки',
   },
   {
     id: 2,
-    title: 'обои',
+    title: 'Обои',
   },
   {
     id: 3,
-    title: 'клей',
+    title: 'Клей',
   },
 ];
