@@ -1,3 +1,13 @@
+import colorsItem1 from '@/data/colorsProducts/colorsItem1';
+import colorsItem2 from '@/data/colorsProducts/colorsItem2';
+import colorsItem3 from '@/data/colorsProducts/colorsItem3';
+import colorsItem4 from '@/data/colorsProducts/colorsItem4';
+import colorsItem5 from '@/data/colorsProducts/colorsItem5';
+import colorsItem6 from '@/data/colorsProducts/colorsItem6';
+import colorsItem7 from '@/data/colorsProducts/colorsItem7';
+import colorsItem8 from '@/data/colorsProducts/colorsItem8';
+import colorsItem9 from '@/data/colorsProducts/colorsItem9';
+
 export default [
   {
     id: 1,
@@ -5,7 +15,7 @@ export default [
     title: 'Батарейки gp AAA',
     price: 200,
     image: 'img/gp_aaa.jpg',
-    colors: 1,
+    color: colorsItem1,
 
   },
   {
@@ -14,7 +24,7 @@ export default [
     title: 'Батарейки paredeer AA',
     price: 150,
     image: 'img/paredeer_aa.jpg',
-    colors: 1,
+    color: colorsItem2,
   },
   {
     id: 3,
@@ -22,7 +32,7 @@ export default [
     title: 'Обои 1',
     price: 500,
     image: 'img/wallpaper_1.jpg',
-    colors: 2,
+    color: colorsItem3,
   },
   {
     id: 4,
@@ -30,7 +40,7 @@ export default [
     title: 'Батарейки GP LR 20',
     price: 300,
     image: 'img/gp_lr_20.jpg',
-    colors: 3,
+    color: colorsItem4,
   },
   {
     id: 5,
@@ -38,7 +48,7 @@ export default [
     title: 'Батарейки GP CR 2032',
     price: 499,
     image: 'img/gp_cr_2032.jpg',
-    colors: 4,
+    color: colorsItem5,
   },
   {
     id: 6,
@@ -46,7 +56,7 @@ export default [
     title: 'Обои 2',
     price: 689,
     image: 'img/wallpaper_2.jpg',
-    colors: 5,
+    color: colorsItem6,
   },
   {
     id: 7,
@@ -54,7 +64,7 @@ export default [
     title: 'Обои 3',
     price: 700,
     image: 'img/wallpaper_3.jpg',
-    colors: 6,
+    color: colorsItem7,
 
   },
   {
@@ -63,7 +73,7 @@ export default [
     title: 'Батарейки для игрушек Фотон',
     price: 70,
     image: 'img/foton_for_toys.jpg',
-    colors: 7,
+    color: colorsItem8,
   },
   {
     id: 9,
@@ -71,6 +81,6 @@ export default [
     title: 'Клей',
     price: 50,
     image: 'img/glue_1.jpg',
-    colorId: 8,
+    color: colorsItem9,
   },
 ];

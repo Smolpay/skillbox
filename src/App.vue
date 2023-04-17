@@ -1,5 +1,5 @@
 <template>
-   <main class="content container">
+  <main class="content container">
     <div class="content__top content__top--catalog">
       <h1 class="content__title">
         Каталог
@@ -12,10 +12,11 @@
       <ProductFilter :price-from.sync="filterPriceFrom"
                      :price-to.sync="filterPriceTo"
                      :category-id.sync="filterCategoryId"
-                     :color.sync="filterColor"/>
+                     :colors.sync="filterColor"
+      />
       <section class="catalog">
-    <ProductList :products="products"/>
-    <BasePagination v-model="page" :count="countProducts" :per-page="productsPerPage" />
+        <ProductList :products="products"/>
+        <BasePagination v-model="page" :count="countProducts" :per-page="productsPerPage"/>
       </section>
     </div>
   </main>
@@ -29,7 +30,11 @@ import ProductList from './components/ProductList.vue';
 
 export default {
   name: 'App',
-  components: { ProductList, BasePagination, ProductFilter },
+  components: {
+    ProductList,
+    BasePagination,
+    ProductFilter
+  },
   data() {
     return {
 
@@ -41,10 +46,10 @@ export default {
       page: 1,
       productsPerPage: 3,
 
-
     };
   },
   computed: {
+
     filteredProducts() {
       let filteredProducts = products;
 
@@ -62,8 +67,7 @@ export default {
       }
 
       if (this.filterColor) {
-        filteredProducts = filteredProducts.filter(product =>
-        product.colors === this.filterColor)
+        filteredProducts = filteredProducts.filter(product => product.color.some(color => color.id === this.filterColor));
       }
 
       return filteredProducts;

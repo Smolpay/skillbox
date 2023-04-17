@@ -1,55 +1,46 @@
- /* eslint-disable */
 <template>
-<li class="catalog__item">
-            <a class="catalog__pic" href="#">
-              <img :src="product.image" :alt="product.title">
-            </a>
-            <h3 class="catalog__title">
-              <a href="#">
-                {{ product.title }}
-              </a>
-            </h3>
+  <li class="catalog__item">
+    <a class="catalog__pic" href="#">
+      <img :src="product.image" :alt="product.title">
+    </a>
+    <h3 class="catalog__title">
+      <a href="#">
+        {{ product.title }}
+      </a>
+    </h3>
 
-            <span class="catalog__price">
+    <span class="catalog__price">
               {{ product.price }}
             </span>
-            <ul class="colors colors--black">
-              <li class="colors__item">
-                <label class="colors__label">
-                  <input class="colors__radio sr-only" type="radio"
-                         value="colors" v-model="color">
-                  <span class="colors__value" style="background-color: #73B6EA;">
+    <ul class="colors colors--black">
+      <li class="colors__item" v-for="color in product.color" :key="product.color.id">
+        <label class="colors__label">
+          <input class="colors__radio sr-only" type="radio"
+                 :value="color.id" v-model.number="Color">
+          <span class="colors__value" :style="`background-color: ${color.background_color}`">
                   </span>
-                </label>
-              </li>
-              <li class="colors__item">
-                <label class="colors__label">
-                  <input class="colors__radio sr-only" type="radio" value="#8BE000" v-model="color">
-                  <span class="colors__value" style="background-color: #8BE000;">
-                  </span>
-                </label>
-              </li>
-              <li class="colors__item">
-                <label class="colors__label">
-                  <input class="colors__radio sr-only" type="radio" value="#222" v-model="color">
-                   <span class="colors__value" style="background-color: #222;">
-                   </span>
-                </label>
-              </li>
-            </ul>
-        </li>
+        </label>
+      </li>
+    </ul>
+  </li>
 </template>
 
 <script>
-import colors from '@/data/colors';
+
+
 export default {
   name: 'ProductItem',
-    data() {
+  data() {
     return {
-      color: colors,
+      Color: 0,
     };
   },
-  props: ['product', 'colors'],
+  props: ['product'],
+  watch: {
+    colorsItem(item) {
+      this.Color = item;
+    },
+  },
 };
 </script>
 
