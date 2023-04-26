@@ -3,18 +3,18 @@
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="index.html">
+          <a class="breadcrumbs__link" href="#" @click.prevent="goToPage('main')">
             Каталог
           </a>
         </li>
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="#">
-            Мобильный транспорт
+          <a class="breadcrumbs__link" href="#" @click.prevent="goToPage('main')">
+            {{ category.title }}
           </a>
         </li>
         <li class="breadcrumbs__item">
           <a class="breadcrumbs__link">
-            Смартфон Xiaomi Mi Mix 3 6/128GB
+            {{ product.title }}
           </a>
         </li>
       </ul>
@@ -23,73 +23,33 @@
     <section class="item">
       <div class="item__pics pics">
         <div class="pics__wrapper">
-          <img width="570" height="570" src="img/phone-square.jpg"
-               srcset="img/phone-square@2x.jpg 2x" alt="Название товара">
+          <img width="570" height="570" :src="product.image"
+               :alt="product.title">
         </div>
-        <ul class="pics__list">
-          <li class="pics__item">
-            <a href="" class="pics__link pics__link--current">
-              <img width="98" height="98" src="img/phone-square-1.jpg"
-                   srcset="img/phone-square-1@2x.jpg 2x" alt="Название товара">
-            </a>
-          </li>
-          <li class="pics__item">
-            <a href="" class="pics__link">
-              <img width="98" height="98" src="img/phone-square-2.jpg"
-                   srcset="img/phone-square-2@2x.jpg 2x" alt="Название товара">
-            </a>
-          </li>
-          <li class="pics__item">
-            <a href="" class="pics__link">
-              <img width="98" height="98" src="img/phone-square-3.jpg"
-                   srcset="img/phone-square-3@2x.jpg 2x" alt="Название товара">
-            </a>
-          </li>
-          <li class="pics__item">
-            <a class="pics__link" href="#">
-              <img width="98" height="98" src="img/phone-square-4.jpg"
-                   srcset="img/phone-square-4@2x.jpg 2x" alt="Название товара">
-            </a>
-          </li>
-        </ul>
       </div>
 
       <div class="item__info">
-        <span class="item__code">Артикул: 150030</span>
+        <span class="item__code">Артикул: {{ product.id }}</span>
         <h2 class="item__title">
-          Смартфон Xiaomi Mi Mix 3 6/128GB
+          {{ product.title }}
         </h2>
         <div class="item__form">
           <form class="form" action="#" method="POST">
             <b class="item__price">
-              18 990 ₽
+              {{ product.price | numberFormat }} ₽
             </b>
 
             <fieldset class="form__block">
               <legend class="form__legend">Цвет:</legend>
               <ul class="colors">
-                <li class="colors__item">
+                <li class="colors__item" v-for="color in product.color" :key="product.color.id">
                   <label class="colors__label">
-                    <input class="colors__radio sr-only" type="radio" name="color-item" value="blue"
-                           checked="">
-                    <span class="colors__value" style="background-color: #73B6EA;">
+                    <input class="colors__radio sr-only" type="radio" :value="color.id"
+                           v-model.number="Color">
+                    <span class="colors__value"
+                          :style="`background-color: ${color.background_color}`">
                     </span>
                   </label>
-                </li>
-                <li class="colors__item">
-                  <label class="colors__label">
-                    <input class="colors__radio sr-only" type="radio" name="color-item"
-                           value="yellow">
-                    <span class="colors__value" style="background-color: #FFBE15;">
-                    </span>
-                  </label>
-                </li>
-                <li class="colors__item">
-                  <label class="colors__label">
-                    <input class="colors__radio sr-only" type="radio" name="color-item"
-                           value="gray">
-                    <span class="colors__value" style="background-color: #939393;">
-                  </span></label>
                 </li>
               </ul>
             </fieldset>
@@ -219,10 +179,35 @@
 </template>
 
 <script>
+import products from '@/data/products';
+import categories from '@/data/categories';
+import goToPage from '@/helpers/goToPage';
+import numberFormat from '@/helpers/numberFormat';
+
 export default {
   name: 'ProductPage',
-  props: ['pageParams']
+  data() {
+    return {
+      Color: 0,
+    };
+  },
+  props: ['pageParams'],
+  filters: {
+    numberFormat
+  },
+  computed: {
+    product() {
+      return products.find(product => product.id === this.pageParams.id);
+    },
+    category() {
+      return categories.find(category => category.id === this.product.categoryId);
+    }
+  },
+  methods: {
+    goToPage
+  }
 };
+
 
 </script>
 

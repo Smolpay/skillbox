@@ -4,10 +4,10 @@
 </template>
 
 <script>
-import MainPage from './pages/MainPage';
-import ProductPage from './pages/ProductPage';
-import NotFoundPage from './pages/NotFoundPage';
-import eventBus from './eventBus';
+import MainPage from '@/pages/MainPage';
+import ProductPage from '@/pages/ProductPage';
+import NotFoundPage from '@/pages/NotFoundPage';
+import eventBus from '@/eventBus';
 
 const routes = {
   main: 'MainPage',

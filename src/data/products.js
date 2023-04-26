@@ -13,7 +13,7 @@ export default [
     id: 1,
     categoryId: 1,
     title: 'Батарейки gp AAA',
-    price: 200,
+    price: 20000,
     image: 'img/gp_aaa.jpg',
     color: colorsItem1,
 
