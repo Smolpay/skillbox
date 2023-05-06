@@ -98,7 +98,7 @@ export default {
           .then(response => this.productsData = response.data)
           .catch(() => this.productsLoadingFailed = true)
           .then(() => this.productsLoading = false);
-      }, 5000);
+      }, 2000);
 
     },
   },

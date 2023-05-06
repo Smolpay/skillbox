@@ -5,11 +5,15 @@
     </svg>
     <span class="header__count" aria-label="Количество товаров">{{ $store.state.cartProducts.length }}</span>
   </router-link>
+
 </template>
 
 <script>
+import VueRouter from 'vue-router';
+import PreLoading from '@/data/pictures/PreLoading';
 export default {
-  name: 'CartIndicator'
+  name: 'CartIndicator',
+  components: { PreLoading },
 };
 </script>
 
