@@ -39,7 +39,7 @@
                      v-model.number="currentColor"
                      name="color"
                      :value="color.id">
-              <span class="colors__value" :style="`background-color: ${color.background_color}`">
+              <span class="colors__value" :style="`background-color: ${color.code}`">
                   </span>
             </label>
           </li>
@@ -137,8 +137,9 @@
 </template>
 
 <script>
-import categories from '@/data/categories';
 import colors from '@/data/colors';
+import axios from 'axios';
+import { API_BASE_URL } from '@/config';
 
 export default {
   name: 'ProductFilter',
@@ -148,16 +149,19 @@ export default {
       currentPriceTo: 0,
       currentCategoryId: 0,
       currentColor: 0,
+
+      categoriesData: null,
+      colorsData: null,
     };
   },
-  props: ['priceFrom', 'priceTo', 'categoryId','colors' ],
+  props: ['priceFrom', 'priceTo', 'categoryId', 'colors'],
   computed: {
 
     categories() {
-      return categories;
+      return this.categoriesData ? this.categoriesData.items : [];
     },
     colorsList() {
-      return colors;
+      return this.colorsData ? this.colorsData.items : [];
     },
 
   },
@@ -188,7 +192,19 @@ export default {
       this.$emit('update:categoryId', 0);
       this.$emit('update:colors', 0);
     },
+    loadCategories() {
+      axios.get(API_BASE_URL + `/api/productCategories`)
+        .then(response => this.categoriesData = response.data);
+    },
+    loadColors() {
+      axios.get(API_BASE_URL + `/api/colors`)
+        .then(response => this.colorsData = response.data);
+    }
   },
+  created() {
+    this.loadCategories();
+    this.loadColors();
+  }
 };
 </script>
 
