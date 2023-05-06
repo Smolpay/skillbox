@@ -1,5 +1,9 @@
 <template>
-  <main class="content container">
+  <main class="content container" v-if="productLoading">
+    <PreLoading></PreLoading>
+  </main>
+  <main class="content container" v-else-if="!productData"> не удалось загрузить товар</main>
+  <main class="content container" v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
@@ -23,7 +27,7 @@
     <section class="item">
       <div class="item__pics pics">
         <div class="pics__wrapper">
-          <img width="570" height="570" :src="product.image"
+          <img width="570" height="570" :src="product.image.file.url"
                :alt="product.title">
         </div>
       </div>
@@ -42,12 +46,12 @@
             <fieldset class="form__block">
               <legend class="form__legend">Цвет:</legend>
               <ul class="colors">
-                <li class="colors__item" v-for="color in product.color" :key="product.color.id">
+                <li class="colors__item" v-for="color in product.colors" :key="product.colors.id">
                   <label class="colors__label">
                     <input class="colors__radio sr-only" type="radio" :value="color.id"
                            v-model.number="Color">
                     <span class="colors__value"
-                          :style="`background-color: ${color.background_color}`">
+                          :style="`background-color: ${color.code}`">
                     </span>
                   </label>
                 </li>
@@ -88,7 +92,8 @@
 
             <div class="item__row">
               <div class="form__counter">
-                <button type="button" v-if="productAmount>1" aria-label="Убрать один товар" @click.prevent="productAmount--">
+                <button type="button" v-if="productAmount>1" aria-label="Убрать один товар"
+                        @click.prevent="productAmount--">
                   <svg width="12" height="12" fill="currentColor">
                     <use xlink:href="#icon-minus"></use>
                   </svg>
@@ -96,7 +101,8 @@
 
                 <input type="text" v-model.number="productAmount">
 
-                <button type="button" aria-label="Добавить один товар" @click.prevent="productAmount++">
+                <button type="button" aria-label="Добавить один товар"
+                        @click.prevent="productAmount++">
                   <svg width="12" height="12" fill="currentColor">
                     <use xlink:href="#icon-plus"></use>
                   </svg>
@@ -179,17 +185,24 @@
 </template>
 
 <script>
-import products from '@/data/products';
-import categories from '@/data/categories';
 import goToPage from '@/helpers/goToPage';
 import numberFormat from '@/helpers/numberFormat';
+import axios from 'axios';
+import { API_BASE_URL } from '@/config';
+import PreLoading from '@/data/pictures/PreLoading';
 
 export default {
   name: 'ProductPage',
+  components: { PreLoading },
   data() {
     return {
       Color: 0,
       productAmount: 1,
+
+      productData: null,
+      productLoading: false,
+      productLoadingFailed: false,
+
     };
   },
   filters: {
@@ -197,10 +210,10 @@ export default {
   },
   computed: {
     product() {
-      return products.find(product => product.id === +this.$route.params.id);
+      return this.productData;
     },
     category() {
-      return categories.find(category => category.id === this.product.categoryId);
+      return this.productData.category;
     }
   },
   methods: {
@@ -212,11 +225,29 @@ export default {
         {
           productId: this.product.id,
           amount: this.productAmount
-        }
+        },
       );
 
+    },
+    loadProduct() {
+      this.productLoading = true;
+      this.productLoadingFailed = false;
+      axios.get(API_BASE_URL + `/api/products/` + this.$route.params.id)
+        .then(response => this.productData = response.data)
+        .catch(() => this.productLoadingFailed = true)
+        .then(() => this.productLoading = false);
+    }
+
+  },
+  watch: {
+    '$route.params.id': {
+      handler() {
+        this.loadProduct();
+      },
+      immediate: true
     }
   }
+
 };
 
 

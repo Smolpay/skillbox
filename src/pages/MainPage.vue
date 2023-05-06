@@ -65,11 +65,6 @@ export default {
     };
   },
   computed: {
-
-    // if (this.filterColor) {
-    //   filteredProducts = filteredProducts.filter(product => product.color.some(color => color.id === this.filterColor));
-    // }
-    // },
     products() {
       return this.productsData
         ? this.productsData.items.map(product => {
@@ -90,7 +85,7 @@ export default {
       this.productsLoadingFailed = false;
       clearTimeout(this.loadProductsTimer);
       this.loadProductsTimer = setTimeout(() => {
-        axios.get(API_BASE_URL + `/api/products0`, {
+        axios.get(API_BASE_URL + `/api/products`, {
           params: {
             page: this.page,
             limit: this.productsPerPage,
