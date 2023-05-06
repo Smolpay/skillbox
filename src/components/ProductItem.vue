@@ -13,11 +13,11 @@
               {{ product.price | numberFormat }}
             </span>
     <ul class="colors colors--black">
-      <li class="colors__item" v-for="color in product.color" :key="product.color.id">
+      <li class="colors__item" v-for="color in product.colors" :key="product.colors.id">
         <label class="colors__label">
           <input class="colors__radio sr-only" type="radio"
                  :value="color.id" v-model.number="Color">
-          <span class="colors__value" :style="`background-color: ${color.background_color}`">
+          <span class="colors__value" :style="`background-color: ${color.code}`">
                   </span>
         </label>
       </li>
