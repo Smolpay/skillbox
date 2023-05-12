@@ -25,7 +25,7 @@
       <form class="cart__form form" action="#" method="POST">
         <div class="cart__field">
           <ul class="cart__list">
-            <CartItem v-for="item in products" :key="item.productId" :item="item"/>
+            <CartItem v-for="item in products" :cartLoading="false" :key="item.productId" :item="item"/>
           </ul>
         </div>
 
@@ -50,12 +50,19 @@
 import { mapGetters } from 'vuex';
 import CartItem from '@/components/CartItem';
 import numberFormat from '@/helpers/numberFormat';
+import PreLoading from '@/data/pictures/PreLoading';
 
 export default {
   name: 'CartPage',
+  data() {
+    return {
+      cartLoading: false,
+    };
+  },
   filters: { numberFormat },
   components: {
-    CartItem
+    CartItem,
+    PreLoading,
   },
   computed: {
     ...mapGetters({
@@ -63,6 +70,14 @@ export default {
       TotalPrice: 'cartTotalPrice',
       amount: 'cartAmount',
     }),
+  },
+  methods: {
+    cartLoad() {
+        this.cartLoading = true;
+        setTimeout(() => {
+          this.cartLoading = false;
+        }, 500);
+    }
   }
 };
 

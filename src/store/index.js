@@ -112,7 +112,7 @@ export default new Vuex.Store({
         productId,
         amount
       });
-      if(amount < 1) {
+      if (amount < 1) {
         return;
       }
 
@@ -131,6 +131,20 @@ export default new Vuex.Store({
         .catch(() => {
           context.commit('syncCartProducts');
         });
+    },
+    deleteCartProduct(context,
+      productId
+    ) {
+      return axios
+        .delete(API_BASE_URL + '/api/baskets/products' + productId,{
+          params: {
+            userAccessKey: context.state.userAccessKey,
+          }
+        })
+        .then(response => {
+          context.commit('updateCartProductsData', response.data.items);
+          context.commit('syncCartProducts');
+        })
     },
   },
   modules: {},
