@@ -12,9 +12,15 @@ export default new Vuex.Store({
     userAccessKey: null,
 
     cartProductsData: [],
+
+    cartLoading: false,
   },
   getters: {
     cartDetailProducts(state) {
+      state.cartLoading = true;
+      setTimeout(() => {
+        state.cartLoading = false;
+      }, 500);
       return state.cartProducts.map(item => {
         const product = state.cartProductsData.find(p => p.product.id === item.productId).product;
         return {
@@ -60,7 +66,7 @@ export default new Vuex.Store({
           amount: item.quantity,
         };
       });
-    }
+    },
   },
   actions: {
     loadCart(context) {
@@ -135,14 +141,20 @@ export default new Vuex.Store({
     deleteCartProduct(context,
       productId
     ) {
+      context.commit('deleteCartProduct', productId);
+
       return axios
-        .delete(API_BASE_URL + '/api/baskets/products/' + productId, {
+        .delete(API_BASE_URL + '/api/baskets/products', {
           params: {
             userAccessKey: context.state.userAccessKey
+          },
+          data: {
+            productId
           }
         })
         .then(response => {
-          context.commit('deleteCartProduct', response.data.productId);
+          context.commit('updateCartProductsData', response.data.items);
+          context.commit('syncCartProducts');
         });
     },
   },

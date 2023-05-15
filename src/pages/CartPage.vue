@@ -1,4 +1,5 @@
 <template>
+  <PreLoading v-if="$store.state.cartLoading"></PreLoading>
   <main class="content container" v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
@@ -28,7 +29,6 @@
             <CartItem v-for="item in products" :key="item.productId" :item="item"/>
           </ul>
         </div>
-
         <div class="cart__block">
           <p class="cart__desc">
             Мы&nbsp;посчитаем стоимость доставки на&nbsp;следующем этапе
@@ -54,11 +54,7 @@ import PreLoading from '@/data/pictures/PreLoading';
 
 export default {
   name: 'CartPage',
-  data() {
-    return {
-      cartLoading: false,
-    };
-  },
+
   filters: { numberFormat },
   components: {
     CartItem,
@@ -71,14 +67,6 @@ export default {
       amount: 'cartAmount',
     }),
   },
-  methods: {
-    cartLoad() {
-        this.cartLoading = true;
-        setTimeout(() => {
-          this.cartLoading = false;
-        }, 500);
-    }
-  }
 };
 
 </script>
