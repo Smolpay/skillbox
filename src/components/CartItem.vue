@@ -33,7 +33,7 @@
     </b>
 
     <button class="product__del button-del" type="button"
-            aria-label="Удалить товар из корзины" @click.prevent="deleteProduct()">
+            aria-label="Удалить товар из корзины" @click.prevent="deleteProduct(item.product.id)">
       <svg width="20" height="20" fill="currentColor">
         <use xlink:href="#icon-close"></use>
       </svg>
@@ -50,11 +50,12 @@ export default {
   filters: {
     numberFormat
   },
-  props: ['item','cartLoading'],
+  props: ['item'],
   methods: {
     ...mapActions(['deleteCartProduct']),
     deleteProduct(){
       this.deleteCartProduct(this.item.product.id)
+      console.log(this.item.product.id)
     }
   },
   computed: {

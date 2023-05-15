@@ -1,5 +1,5 @@
 <template>
-  <main class="content container">
+  <main class="content container" v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
@@ -25,7 +25,7 @@
       <form class="cart__form form" action="#" method="POST">
         <div class="cart__field">
           <ul class="cart__list">
-            <CartItem v-for="item in products" :cartLoading="false" :key="item.productId" :item="item"/>
+            <CartItem v-for="item in products" :key="item.productId" :item="item"/>
           </ul>
         </div>
 
