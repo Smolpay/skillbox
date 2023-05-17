@@ -13,7 +13,11 @@ export default new Vuex.Store({
 
     cartProductsData: [],
 
+    orderInfo: null,
+
     cartLoading: false,
+
+    orderInfoProducts: [],
   },
   getters: {
     cartDetailProducts(state) {
@@ -32,6 +36,18 @@ export default new Vuex.Store({
         };
       });
     },
+    cartFormInfoProducts(state) {
+      return state.orderInfoProducts = state.orderInfo.basket.items.map(infoProducts => infoProducts.product);
+    },
+
+    cartFormInfoProductsAmount(state) {
+      return state.orderInfoProducts = (state.orderInfo.basket.items.map(infoProducts => infoProducts)).reduce((total, item) => (item.quantity) + total, 0);
+    },
+
+    cartFormInfoTotalPrice(state) {
+      return (state.orderInfo.basket.items.map(infoProducts => infoProducts)).reduce((infoTotal, item) => (item.product.price * item.quantity) + infoTotal, 0);
+    },
+
     cartTotalPrice(state, getters) {
       return getters.cartDetailProducts.reduce((acc, item) => (item.product.price * item.amount) + acc, 0);
     },
@@ -40,6 +56,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    updateOrderInfo(state, orderInfo) {
+      state.orderInfo = orderInfo;
+    },
     resetCart(state) {
       state.cartProducts = [];
       state.cartProductsData = [];
@@ -63,6 +82,9 @@ export default new Vuex.Store({
     updateCartProductsData(state, items) {
       state.cartProductsData = items;
     },
+    updateProductsInfo(state, items) {
+      state.cartFormInfoProducts = items;
+    },
     syncCartProducts(state) {
       state.cartProducts = state.cartProductsData.map(item => {
         return {
@@ -73,6 +95,16 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    loadOrderInfo(context, orderId) {
+      return axios.get(API_BASE_URL + '/api/orders/' + orderId, {
+        params: {
+          userAccessKey: context.state.userAccessKey
+        }
+      })
+        .then(response => {
+          context.commit('updateOrderInfo', response.data);
+        });
+    },
     loadCart(context) {
       this.state.cartLoading = true;
       axios.get(API_BASE_URL + '/api/baskets', {

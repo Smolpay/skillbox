@@ -116,8 +116,10 @@
             <p>Итого: <b>{{ amount }}</b> товара на сумму <b>{{ TotalPrice }} ₽</b></p>
           </div>
 
-          <button class="cart__button button button--primery" type="submit">
-            Оформить заказ<PreLoading v-if="$store.state.cartLoading"/>
+          <button class="cart__button button button--primery" type="submit"
+                  v-if="products.length > 0">
+            Оформить заказ
+            <PreLoading v-if="$store.state.cartLoading"/>
           </button>
         </div>
         <div class="cart__error form__error-block" v-if="formErrorMessage">
@@ -163,7 +165,7 @@ export default {
   },
   methods: {
     order() {
-      this.$store.state.cartLoading=true;
+      this.$store.state.cartLoading = true;
       this.formError = {};
       this.formErrorMessage = '';
       axios.post(API_BASE_URL + '/api/orders', {
@@ -175,12 +177,17 @@ export default {
       })
         .then(response => {
           this.$store.commit('resetCart');
-          this.$store.state.cartLoading=false;
+          this.$store.commit('updateOrderInfo', response.data);
+          this.$store.state.cartLoading = false;
+          this.$router.push({
+            name: 'orderInfo',
+            params: { id: response.data.id }
+          });
         })
         .catch(error => {
           this.formError = error.response.data.error.request || {};
           this.formErrorMessage = error.response.data.error.message;
-          this.$store.state.cartLoading=false;
+          this.$store.state.cartLoading = false;
         });
     },
   }
