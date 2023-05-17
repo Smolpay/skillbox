@@ -37,9 +37,13 @@ export default new Vuex.Store({
     },
     cartAmount(state) {
       return state.cartProducts.reduce((total, item) => (item.amount) + total, 0);
-    }
+    },
   },
   mutations: {
+    resetCart(state) {
+      state.cartProducts = [];
+      state.cartProductsData = [];
+    },
     updateCartProductAmount(state, {
       productId,
       amount
@@ -70,6 +74,7 @@ export default new Vuex.Store({
   },
   actions: {
     loadCart(context) {
+      this.state.cartLoading = true;
       axios.get(API_BASE_URL + '/api/baskets', {
         params: {
           userAccessKey: context.state.userAccessKey
@@ -80,6 +85,8 @@ export default new Vuex.Store({
             localStorage.setItem('userAccessKey', response.data.user.accessKey);
             context.commit('updateUserAccessKey', response.data.user.accessKey);
           }
+
+          this.state.cartLoading = false;
 
           context.commit('updateCartProductsData', response.data.items);
           context.commit('syncCartProducts');
